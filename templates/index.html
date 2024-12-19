@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Home of Hoops</title>
+    <script>
+        function ClickLink(selectElement) {
+            const selectedValue = selectElement.value;
+            if (selectedValue) {
+                window.location.href = selectedValue;
+            }
+        }
+    </script>
+    <style>
+        .inline-block {
+            display: inline-block;
+            vertical-align: top; 
+            margin-right: 10px;
+            margin-left: 20px; 
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .table-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px; /* Optional: adds space between the tables */
+        }
+    </style>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <p>You're logged in as {{username}}</p>
+
+
+    <select id="Dropdown" onchange="ClickLink(this)" class="inline-block">
+        <option value=""> Searches </option>
+        <option value="http://127.0.0.1:5000/PlayerSearch">Player Search</option>
+        <option value="http://127.0.0.1:5000//GameSearch">Game Search</option>
+        <option value="http://127.0.0.1:5000/Compare">Compare</option>
+        <option value="http://127.0.0.1:5000/TeamSearch">Team Search</option>
+    </select>
+
+    <form action="http://127.0.0.1:5000/predictor" method="get" class="inline-block">
+        <button type="submit" class="inline-block">Predictor</button>
+    </form>
+
+    <form action="http://127.0.0.1:5000/leader" method="get" class="inline-block">
+        <button type="submit" class="inline-block">League Leaders</button>
+    </form>
+    
+
+    <form action="http://127.0.0.1:5000/logout" method="get" class="inline-block">
+        <button type="submit" class="inline-block">Sign Out</button>
+    </form>
+    {% if Flag != True %}
+    <div class="container">
+        <h3>{{Team}} game vs {{Game["opponent"]}} on {{Game["gameDate"]}}</h1>
+        <table>
+            <tbody>
+                <tr>
+                    <th>{{Game["opponent"]}}</th>
+                    <td>{{Game["opponentPoints"]}}</td>
+                </tr>
+                <tr>
+                    <th>{{Team}}</th>
+                    <td>{{Game["teamPoints"]}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% elif Flag %}
+    {{Sched}}
+    {% endif %}
+    <div>{{ Standing | safe }}</div>
+</body>
+</html>
