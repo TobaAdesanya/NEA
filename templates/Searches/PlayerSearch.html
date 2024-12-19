@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>StatMind - Player Search</title>
+    <style>
+        .Tables {
+            display: flex;
+            gap: 10px; 
+            justify-content: start;
+            flex-wrap: nowrap; 
+        }
+        table {
+            border-collapse: collapse;
+            width: 150px; 
+        }
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        td:first-child {
+            font-weight: bold; 
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>Player Search</h1>
+    <form action="http://127.0.0.1:5000/PlayerSearch">
+        <label for="Fname">First Name:</label>
+        <input type="text" id="Fname" name="Fname" required><br><br>
+
+        <label for="Surname">First Name:</label>
+        <input type="text" id="Surname" name="Surname" required><br><br>
+
+        <select name="Period" id="Period" required>
+            <option value="">Select a Season</option>
+            <option value="Career">Career</option>
+            <script>
+              for (let year = 2023; year >= 1947; year--) {
+                let nextYear = year + 1;
+                document.write(`<option value="${year}-${nextYear}">${year}-${nextYear.toString().slice(-2)}</option>`);
+              }
+            </script>
+        </select>
+
+        <select name="Type" id="Type" required>
+            <option value="">Regular Season or Playoffs?</option>
+            <option value="Regular">Regular Season</option>
+            <option value="Playoffs">Playoffs</option>
+        </select>
+        
+        <select name="Stat_Type" id="Stat_Type" required>
+            <option value="">Please choose a stat format</option>
+            <option value="PerGame">Per Game</option>
+            <option value="Per36">Per 36 mins</option>
+            <option value="Per100">Per 100 Possessions</option>
+            <option value="Advanced">Advanced stats</option>
+            <option value="Totals">Total stats</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+<div class="Tables">
+
+    {% if Box_Score %}
+        <table>
+            {% for key, value in Box_Score[0].items() %}
+            {% if value != "N/A" %}
+            <tr>
+            <td>{{ key | replace('_', ' ') | capitalize }}</td>
+            <td>{{ value }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>    
+    {% else %}
+        {{Error}}
+    {% endif %}
+
+    {% if Info  %}
+        <table>
+            <tr>
+                <td>Height</td>
+                <td>{{ Info['height'] }}</td>
+            </tr>
+            <tr>
+                <td>Weight</td>
+                <td>{{ Info['weight'] }}</td>
+            </tr>
+            <tr>
+                <td>Positions</td>
+                <td>{{ Info['positions'] }}</td>
+            </tr>
+            <tr>
+                <td>Date Born</td>
+                <td>{{ Info['dateBorn'] }}</td>
+            </tr>
+            <tr>
+                <td>Draft Info</td>
+                <td>{{ Info['draftInfo'] }}</td>
+            </tr>
+            {% if  Info['hofInductionInfo'] != "N/A"  %}
+            <tr>
+                <td>HOF Induction</td>
+                <td>{{ Info['hofInductionInfo'] }}</td>
+            </tr>
+            {% endif %}
+        </table>
+
+        <div class="accolades">
+            <div class="section-title">Accolades</div>
+            <ul>
+                {% for accolade in Info['accolades'] %}
+                    <li>{{ accolade }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="teams">
+            <div class="section-title">Teams</div>
+            <ul>
+                {% for team in Info['teams'] %}
+                    <li>{{ team }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <img src='{{Info.headshotUrl}}' alt="Player's Headshot">
+        <p>{{Info[headshotUrl]}}</p>
+    {% endif %}
+</div>
+        
+</body>
+</html>
