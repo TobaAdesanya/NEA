@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>StatMind - Compare</title>
+</head>
+<style>
+    .tables-container {
+      display: flex;
+      justify-content: space-between; /* Adjust spacing between tables */
+      gap: 20px; /* Add a gap between tables */
+    }
+  
+    .table-wrapper {
+      width: 45%; /* Adjust table width as needed */
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+  
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+  
+    th {
+      background-color: #f2f2f2;
+    }
+  
+    caption {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  </style>
+<body>
+    <h1>Compare</h1>
+        <form action="http://127.0.0.1:5000/Compare">
+            <label for="Fname1">First Name:</label>
+            <input type="text" id="Fname1" name="Fname1" required><br><br>
+
+            <label for="Surname1">First Name:</label>
+            <input type="text" id="Surname1" name="Surname1" required><br><br>
+
+            <select name="Period1" id="Period1" required>
+                <option value="">Player 1 Season</option>
+                <option value="Career">Career</option>
+                <script>
+                  for (let year = 2024; year >= 1947; year--) {
+                    let nextYear = year + 1;
+                    document.write(`<option value="${year}-${nextYear}">${year}-${nextYear.toString().slice(-2)}</option>`);
+                  }
+                </script>
+            </select><br><br>
+    
+
+            <label for="Fname2">First Name:</label>
+            <input type="text" id="Fname2" name="Fname2" required><br><br>
+    
+            <label for="Surname2">First Name:</label>
+            <input type="text" id="Surname2" name="Surname2" required><br><br>
+    
+            <select name="Period2" id="Period2" required>
+                <option value="">Player 2 Season</option>
+                <option value="Career">Career</option>
+                <script>
+                  for (let year = 2024; year >= 1947; year--) {
+                    let nextYear = year + 1;
+                    document.write(`<option value="${year}-${nextYear}">${year}-${nextYear.toString().slice(-2)}</option>`);
+                  }
+                </script>
+            </select><br><br>
+            <select name="Type" id="Type" required>
+                <option value="">Regular Season or Playoffs?</option>
+                <option value="Regular">Regular Season</option>
+                <option value="Playoffs">Playoffs</option>
+            </select>
+            
+            <select name="Stat_Type" id="Stat_Type" required>
+                <option value="">Please choose a stat format</option>
+                <option value="PerGame">Per Game</option>
+                <option value="Per36">Per 36 mins</option>
+                <option value="Per100">Per 100 Possessions</option>
+                <option value="Advanced">Advanced stats</option>
+                <option value="Totals">Total stats</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+        
+<div class="tables-container">
+    {% if Box_Score1 and Box_Score2%}
+    <div class="table-wrapper">
+        <table>
+            <caption>Player Stats Comparison</caption>
+            <tr>
+              <th>Statistic</th>
+              <th>{{Player1}}</th>
+              <th>{{Player2}}</th>
+            </tr>
+            {% for key in Box_Score1[0].keys() %}
+            {% if Box_Score1[0][key] != "N/A" and Box_Score2[0][key] != "N/A" %}
+            <tr>
+              <td>{{ key | replace('_', ' ') | capitalize }}</td>
+              <td>{{ Box_Score1[0][key] }}</td>
+              <td>{{ Box_Score2[0][key] }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+    </div>
+    {% elif error%}
+      {{error}}
+    {% endif %}
+  </div>
+</body>
+</html>
