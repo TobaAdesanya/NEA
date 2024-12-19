@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>StatMind - Predictor</title>
+</head>
+<body>
+    <h1>Predictor</h1>
+    <form action="http://127.0.0.1:5000/predictor">  
+        
+        
+        <label for="Team1">Select Team 1:</label>
+        <select id="Team1" name="Team1" required>
+            <option value=""> Please select a team</option>
+            <option value="Atlanta Hawks">Atlanta Hawks</option>
+            <option value="Boston Celtics">Boston Celtics</option>
+            <option value="Brooklyn Nets">Brooklyn Nets</option>
+            <option value="Charlotte Hornets">Charlotte Hornets</option>
+            <option value="Chicago Bulls">Chicago Bulls</option>
+            <option value="Cleveland Cavaliers">Cleveland Cavaliers</option>
+            <option value="Dallas Mavericks">Dallas Mavericks</option>
+            <option value="Denver Nuggets">Denver Nuggets</option>
+            <option value="Detroit Pistons">Detroit Pistons</option>
+            <option value="Golden State Warriors">Golden State Warriors</option>
+            <option value="Houston Rockets">Houston Rockets</option>
+            <option value="Indiana Pacers">Indiana Pacers</option>
+            <option value="Los Angeles Clippers">Los Angeles Clippers</option>
+            <option value="Los Angeles Lakers">Los Angeles Lakers</option>
+            <option value="Memphis Grizzlies">Memphis Grizzlies</option>
+            <option value="Miami Heat">Miami Heat</option>
+            <option value="Milwaukee Bucks">Milwaukee Bucks</option>
+            <option value="Minnesota Timberwolves">Minnesota Timberwolves</option>
+            <option value="New Orleans Pelicans">New Orleans Pelicans</option>
+            <option value="New York Knicks">New York Knicks</option>
+            <option value="Oklahoma City Thunder">Oklahoma City Thunder</option>
+            <option value="Orlando Magic">Orlando Magic</option>
+            <option value="Philadelphia 76ers">Philadelphia 76ers</option>
+            <option value="Phoenix Suns">Phoenix Suns</option>
+            <option value="Portland Trail Blazers">Portland Trail Blazers</option>
+            <option value="Sacramento Kings">Sacramento Kings</option>
+            <option value="San Antonio Spurs">San Antonio Spurs</option>
+            <option value="Toronto Raptors">Toronto Raptors</option>
+            <option value="Utah Jazz">Utah Jazz</option>
+            <option value="Washington Wizards">Washington Wizards</option>
+        </select><br><br>
+
+
+        <label for="Team2">Select Team 2:</label>
+        <select id="Team2" name="Team2" required>
+            <option value=""> Please select a team</option>
+            <option value="Atlanta Hawks">Atlanta Hawks</option>
+            <option value="Boston Celtics">Boston Celtics</option>
+            <option value="Brooklyn Nets">Brooklyn Nets</option>
+            <option value="Charlotte Hornets">Charlotte Hornets</option>
+            <option value="Chicago Bulls">Chicago Bulls</option>
+            <option value="Cleveland Cavaliers">Cleveland Cavaliers</option>
+            <option value="Dallas Mavericks">Dallas Mavericks</option>
+            <option value="Denver Nuggets">Denver Nuggets</option>
+            <option value="Detroit Pistons">Detroit Pistons</option>
+            <option value="Golden State Warriors">Golden State Warriors</option>
+            <option value="Houston Rockets">Houston Rockets</option>
+            <option value="Indiana Pacers">Indiana Pacers</option>
+            <option value="Los Angeles Clippers">Los Angeles Clippers</option>
+            <option value="Los Angeles Lakers">Los Angeles Lakers</option>
+            <option value="Memphis Grizzlies">Memphis Grizzlies</option>
+            <option value="Miami Heat">Miami Heat</option>
+            <option value="Milwaukee Bucks">Milwaukee Bucks</option>
+            <option value="Minnesota Timberwolves">Minnesota Timberwolves</option>
+            <option value="New Orleans Pelicans">New Orleans Pelicans</option>
+            <option value="New York Knicks">New York Knicks</option>
+            <option value="Oklahoma City Thunder">Oklahoma City Thunder</option>
+            <option value="Orlando Magic">Orlando Magic</option>
+            <option value="Philadelphia 76ers">Philadelphia 76ers</option>
+            <option value="Phoenix Suns">Phoenix Suns</option>
+            <option value="Portland Trail Blazers">Portland Trail Blazers</option>
+            <option value="Sacramento Kings">Sacramento Kings</option>
+            <option value="San Antonio Spurs">San Antonio Spurs</option>
+            <option value="Toronto Raptors">Toronto Raptors</option>
+            <option value="Utah Jazz">Utah Jazz</option>
+            <option value="Washington Wizards">Washington Wizards</option>
+        </select><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+    {% if Team1 and Team2 %}
+        {% if TR1 == "Error" or TR2 == "Error" %}
+        <p>There were problems connecting to the API so we could not predict the winner between {{ Team1 }} and {{ Team2 }}</p>
+        {% else %}
+            <p> {{Team1}} had a Team Rating of {{TR1}} and {{Team2}} had a Team Rating of {{TR2}} <br>where the average was 26.2479 </p>
+            {% if Change < 0 %}
+                <p> The Model has calculated {{Team2}} is {{ Change | abs }}% more likely to win</p>
+            {% elif Change > 0 %}
+                <p> The Model has calculated {{Team1}} is {{ Change | abs }}% more likely to win</p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</body>
+</html>
